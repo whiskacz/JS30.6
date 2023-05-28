@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            background-image: url(/wp2754115-assassin-creed-full-hd-wallpapers.jpg);
+            background-size: content;
+            background-repeat: no-repeat;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 25px;
+            color: azure;
+        }
+        .wrapper{
+            width: 30vw;
+            border: 2px solid black;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            background: rgba(0,0,0,0.4);
+        }
+        input {
+            margin: 20px auto;
+            display: block;
+        }
+
+        ul {
+            list-style: none;
+        }
+        li {
+            margin: 5px auto 5px 20px;
+        }
+    </style>
+</head>
+<body>
+   <div class="wrapper">
+    <input class="inputplace" type="text" name="" id="" placeholder="podaj nazwę">
+    <ul class="ulplace">
+
+    </ul>
+   </div> 
+   <script>
+    const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+    const inputek = document.querySelector(".inputplace");
+    const ulek = document.querySelector(".ulplace")
+    const cities = [];
+    fetch(endpoint)
+    .then(res=>res.json())
+    .then(data =>cities.push(...data))
+
+    function findMatches (wordToMatch, cities) {
+        return cities.filter (place =>{
+
+            const regex = RegExp(wordToMatch, 'gi');
+            return place.city.match(regex) || place.state.match(regex)
+
+        })
+    }
+
+function displayMatches(){
+    const matchArray = findMatches(this.value, cities)
+    const html = matchArray.map (place => {
+        return `<li>${place.city}, ${place.population}</li>`
+    }).join('');
+    ulek.innerHTML = html
+}
+
+   
+ inputek.addEventListener('change', displayMatches) 
+ inputek.addEventListener('keyup', displayMatches) 
+
+   </script>
+
+</body>
+
+</html>
